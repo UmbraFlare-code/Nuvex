@@ -1,0 +1,160 @@
+.productos {
+  display: flex;
+}
+
+.productos-main {
+  flex: 1;
+  margin-left: 240px;
+  padding: 1rem;
+  background: #f9fafb;
+  min-height: 100vh;
+}
+
+.productos-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.productos-header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-left: 0;
+}
+
+.add-btn {
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.2s;
+}
+
+.add-btn:hover {
+  background: #15803d;
+}
+
+/* Tabla principal (desktop) */
+.productos-table {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 2rem;
+}
+
+.productos-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.productos-table th,
+.productos-table td {
+  padding: 0.9rem;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.productos-table th {
+  background: #f3f4f6;
+  font-weight: 600;
+}
+
+.productos-table tr:hover {
+  background: #f9fafb;
+}
+
+.critico {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+/* Botones */
+.edit-btn,
+.delete-btn {
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: background 0.2s;
+}
+
+.edit-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.edit-btn:hover {
+  background: #2563eb;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+/* Tarjetas (solo móviles) */
+.productos-cards {
+  display: none;
+}
+
+.producto-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s;
+}
+
+.producto-card:hover {
+  transform: translateY(-2px);
+}
+
+.producto-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.producto-card p {
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+}
+
+.producto-card span {
+  font-weight: 600;
+  color: #374151;
+}
+
+.acciones {
+  margin-top: 0.8rem;
+}
+
+@media (max-width: 768px) {
+  .productos-header h1 {
+    margin-left: 2.3rem;
+  }
+  .productos-main {
+    margin-left: 0;
+    padding: 1rem;
+  }
+  
+  .productos-table {
+    display: none; /* se oculta tabla */
+  }
+
+  .productos-cards {
+    display: block; /* aparecen tarjetas */
+  }
+}

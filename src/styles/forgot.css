@@ -1,0 +1,14 @@
+/* Específicos de Forgot Password */
+.forgot-container {
+  text-align: center;
+}
+
+.forgot-container .subtitle {
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.forgot-footer {
+  margin-top: 1rem;
+}
