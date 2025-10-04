@@ -10,86 +10,57 @@ import {
   MdExitToApp,
   MdAssignmentReturn,
 } from "react-icons/md"
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { useGlobal } from "@/features/context/GlobalContext"
 import styles from "../styles/ActionsView.module.css"
 
 export default function ActionsView() {
-  // ✅ Todo desde GlobalContext
   const { actions, addAction, updateAction, deleteAction, products, users } = useGlobal()
 
-  const [filterType, setFilterType] = useState<string>("todas")
-  const [filterStatus, setFilterStatus] = useState<string>("todas")
+  const [filterType, setFilterType] = useState("todas")
+  const [filterStatus, setFilterStatus] = useState("todas")
 
-  // 🔎 Filtrado dinámico
-  const filteredActions = actions.filter((action) => {
-    const typeMatch = filterType === "todas" || action.type === filterType
-    const statusMatch = filterStatus === "todas" || action.status === filterStatus
-    return typeMatch && statusMatch
-  })
+  const filteredActions = useMemo(
+    () =>
+      actions.filter(
+        (a) =>
+          (filterType === "todas" || a.type === filterType) &&
+          (filterStatus === "todas" || a.status === filterStatus)
+      ),
+    [actions, filterType, filterStatus]
+  )
 
-  // === Helpers ===
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case "entrada":
-        return <MdTrendingUp size={24} />
-      case "salida":
-        return <MdTrendingDown size={24} />
-      case "ajuste":
-        return <MdSync size={24} />
-      case "uso":
-        return <MdExitToApp size={24} />
-      case "retorno":
-        return <MdAssignmentReturn size={24} />
-      default:
-        return null
-    }
+  const typeIconMap: Record<string, JSX.Element> = {
+    entrada: <MdTrendingUp size={24} />,
+    salida: <MdTrendingDown size={24} />,
+    ajuste: <MdSync size={24} />,
+    uso: <MdExitToApp size={24} />,
+    retorno: <MdAssignmentReturn size={24} />,
   }
 
-  const getTypeColor = (type: string) => {
-    switch (type) {
-      case "entrada":
-        return styles.typeEntrada
-      case "salida":
-        return styles.typeSalida
-      case "ajuste":
-        return styles.typeAjuste
-      case "uso":
-        return styles.typeUso
-      case "retorno":
-        return styles.typeRetorno
-      default:
-        return ""
-    }
+  const typeStyleMap: Record<string, string> = {
+    entrada: styles.typeEntrada,
+    salida: styles.typeSalida,
+    ajuste: styles.typeAjuste,
+    uso: styles.typeUso,
+    retorno: styles.typeRetorno,
   }
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "completada":
-        return styles.statusCompletada
-      case "pendiente":
-        return styles.statusPendiente
-      case "cancelada":
-        return styles.statusCancelada
-      default:
-        return ""
-    }
+  const statusStyleMap: Record<string, string> = {
+    completada: styles.statusCompletada,
+    pendiente: styles.statusPendiente,
+    cancelada: styles.statusCancelada,
   }
 
-  // === Handlers ===
   const handleDelete = (id: string) => {
-    if (confirm("¿Seguro que quieres eliminar esta acción?")) {
-      deleteAction(id)
-    }
+    if (confirm("¿Seguro que quieres eliminar esta acción?")) deleteAction(id)
   }
 
   const handleAddTestAction = () => {
-    if (products.length === 0 || users.length === 0) {
+    if (!products.length || !users.length) {
       alert("No hay productos o usuarios cargados aún.")
       return
     }
-
-    // ✅ Guardamos IDs para mantener relaciones
     addAction({
       type: "entrada",
       productId: products[0].id,
@@ -102,7 +73,7 @@ export default function ActionsView() {
 
   return (
     <div className={styles.actionsView}>
-      {/* === Header === */}
+      {/* Header */}
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Registro de Acciones</h1>
@@ -114,119 +85,159 @@ export default function ActionsView() {
         </button>
       </div>
 
-      {/* === Filtros === */}
+      {/* Filters */}
       <div className={styles.filters}>
-        <div className={styles.filterGroup}>
-          <label>Tipo de Acción:</label>
-          <select value={filterType} onChange={(e) => setFilterType(e.target.value)} className={styles.select}>
-            <option value="todas">Todas</option>
-            <option value="entrada">Entrada</option>
-            <option value="salida">Salida</option>
-            <option value="ajuste">Ajuste</option>
-            <option value="uso">Uso</option>
-            <option value="retorno">Retorno</option>
-          </select>
-        </div>
-
-        <div className={styles.filterGroup}>
-          <label>Estado:</label>
-          <select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className={styles.select}>
-            <option value="todas">Todas</option>
-            <option value="completada">Completada</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="cancelada">Cancelada</option>
-          </select>
-        </div>
-
+        <FilterSelect
+          label="Tipo de Acción:"
+          value={filterType}
+          onChange={setFilterType}
+          options={["todas", "entrada", "salida", "ajuste", "uso", "retorno"]}
+        />
+        <FilterSelect
+          label="Estado:"
+          value={filterStatus}
+          onChange={setFilterStatus}
+          options={["todas", "completada", "pendiente", "cancelada"]}
+        />
         <div className={styles.stats}>
-          <span className={styles.statItem}>
-            Total: <strong>{actions.length}</strong>
-          </span>
-          <span className={styles.statItem}>
-            Mostrando: <strong>{filteredActions.length}</strong>
-          </span>
+          <Stat label="Total" value={actions.length} />
+          <Stat label="Mostrando" value={filteredActions.length} />
         </div>
       </div>
 
-      {/* === Tarjetas === */}
+      {/* Cards */}
       <div className={styles.cardsGrid}>
         {filteredActions.map((action) => {
           const product = products.find((p) => p.id === action.productId)
           const user = users.find((u) => u.id === action.userId)
 
           return (
-            <div key={action.id} className={styles.actionCard}>
+            <Card key={action.id}>
               <div className={styles.cardHeader}>
-                <div className={`${styles.cardIcon} ${getTypeColor(action.type)}`}>{getTypeIcon(action.type)}</div>
+                <div className={`${styles.cardIcon} ${typeStyleMap[action.type]}`}>
+                  {typeIconMap[action.type]}
+                </div>
                 <div className={styles.cardActions}>
-                  <button
-                    className={styles.cardActionButton}
+                  <IconButton
+                    icon={<MdEdit size={18} />}
                     title="Editar"
                     onClick={() =>
                       updateAction(action.id, {
                         status: action.status === "pendiente" ? "completada" : "pendiente",
                       })
                     }
-                  >
-                    <MdEdit size={18} />
-                  </button>
-                  <button
-                    className={styles.cardActionButtonDanger}
+                  />
+                  <IconButton
+                    icon={<MdDelete size={18} />}
                     title="Eliminar"
+                    danger
                     onClick={() => handleDelete(action.id)}
-                  >
-                    <MdDelete size={18} />
-                  </button>
+                  />
                 </div>
               </div>
 
               <div className={styles.cardBody}>
                 <div className={styles.cardTop}>
-                  <span className={`${styles.typeBadge} ${getTypeColor(action.type)}`}>
-                    {action.type.charAt(0).toUpperCase() + action.type.slice(1)}
+                  <span className={`${styles.typeBadge} ${typeStyleMap[action.type]}`}>
+                    {capitalize(action.type)}
                   </span>
-                  {/* ✅ usamos createdAt */}
-                  <span className={styles.cardDate}>{new Date(action.createdAt).toLocaleDateString("es-ES")}</span>
+                  <span className={styles.cardDate}>
+                    {new Date(action.createdAt).toLocaleDateString("es-ES")}
+                  </span>
                 </div>
 
                 <h3 className={styles.cardTitle}>{product?.name ?? "Producto desconocido"}</h3>
 
-                <div className={styles.cardInfo}>
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>Cantidad:</span>
-                    <span className={action.quantity > 0 ? styles.quantityPositive : styles.quantityNegative}>
-                      {action.quantity > 0 ? "+" : ""}
-                      {action.quantity} unidades
-                    </span>
-                  </div>
-
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>Usuario:</span>
-                    <span className={styles.infoValue}>{user?.name ?? "Usuario desconocido"}</span>
-                  </div>
-
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>Razón:</span>
-                    <span className={styles.infoValue}>{action.reason}</span>
-                  </div>
-                </div>
+                <InfoRow label="Cantidad:" value={`${action.quantity > 0 ? "+" : ""}${action.quantity} unidades`} highlight={action.quantity > 0} />
+                <InfoRow label="Usuario:" value={user?.name ?? "Usuario desconocido"} />
+                <InfoRow label="Razón:" value={action.reason} />
               </div>
 
               <div className={styles.cardFooter}>
-                <span className={`${styles.statusBadge} ${getStatusColor(action.status)}`}>
-                  {action.status.charAt(0).toUpperCase() + action.status.slice(1)}
+                <span className={`${styles.statusBadge} ${statusStyleMap[action.status]}`}>
+                  {capitalize(action.status)}
                 </span>
               </div>
-            </div>
+            </Card>
           )
         })}
       </div>
 
-      {filteredActions.length === 0 && (
-        <div className={styles.emptyState}>
-          <p>No se encontraron acciones</p>
-        </div>
-      )}
+      {filteredActions.length === 0 && <div className={styles.emptyState}>No se encontraron acciones</div>}
     </div>
   )
 }
+
+/* ===========================
+   Componentes UI reutilizables
+=========================== */
+
+function Card({ children }: { children: React.ReactNode }) {
+  return <div className={styles.actionCard}>{children}</div>
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <span className={styles.statItem}>
+      {label}: <strong>{value}</strong>
+    </span>
+  )
+}
+
+function IconButton({
+  icon,
+  title,
+  onClick,
+  danger,
+}: {
+  icon: React.ReactNode
+  title: string
+  onClick: () => void
+  danger?: boolean
+}) {
+  return (
+    <button
+      className={danger ? styles.cardActionButtonDanger : styles.cardActionButton}
+      onClick={onClick}
+      title={title}
+    >
+      {icon}
+    </button>
+  )
+}
+
+function FilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string
+  value: string
+  onChange: (val: string) => void
+  options: string[]
+}) {
+  return (
+    <div className={styles.filterGroup}>
+      <label>{label}</label>
+      <select value={value} onChange={(e) => onChange(e.target.value)} className={styles.select}>
+        {options.map((opt) => (
+          <option key={opt} value={opt}>
+            {capitalize(opt)}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
+function InfoRow({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
+  return (
+    <div className={styles.infoRow}>
+      <span className={styles.infoLabel}>{label}</span>
+      <span className={highlight ? styles.quantityPositive : styles.infoValue}>{value}</span>
+    </div>
+  )
+}
+
+const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)

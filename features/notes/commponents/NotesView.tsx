@@ -1,40 +1,33 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { MdAdd, MdEdit, MdDelete, MdPushPin } from "react-icons/md"
 import { useGlobal } from "@/features/context/GlobalContext"
 import styles from "../styles/NotesView.module.css"
 
 export default function NotesView() {
-  // ✅ Desde GlobalContext
   const { notes, addNote, updateNote, deleteNote, users } = useGlobal()
-  const [filterUser, setFilterUser] = useState<string>("todos")
+  const [filterUser, setFilterUser] = useState("todos")
 
-  // Filtro por usuario (en vez de categoría)
-  const filteredNotes = notes.filter(
-    (note) => filterUser === "todos" || note.userId === filterUser
+  const filteredNotes = useMemo(
+    () => notes.filter((n) => filterUser === "todos" || n.userId === filterUser),
+    [notes, filterUser]
   )
 
-  const pinnedNotes = filteredNotes.filter((note) => note.isPinned)
-  const regularNotes = filteredNotes.filter((note) => !note.isPinned)
+  const pinnedNotes = filteredNotes.filter((n) => n.isPinned)
+  const regularNotes = filteredNotes.filter((n) => !n.isPinned)
 
-  // === Handlers ===
-  const togglePin = (id: string, isPinned: boolean) => {
-    updateNote(id, { isPinned: !isPinned })
-  }
+  const togglePin = (id: string, isPinned: boolean) => updateNote(id, { isPinned: !isPinned })
 
   const handleDelete = (id: string) => {
-    if (confirm("¿Está seguro de eliminar esta nota?")) {
-      deleteNote(id)
-    }
+    if (confirm("¿Está seguro de eliminar esta nota?")) deleteNote(id)
   }
 
   const handleAddTestNote = () => {
-    if (users.length === 0) {
+    if (!users.length) {
       alert("No hay usuarios disponibles para crear la nota.")
       return
     }
-
     addNote({
       userId: users[0].id,
       title: "Nueva nota de prueba",
@@ -43,53 +36,9 @@ export default function NotesView() {
     })
   }
 
-  // === Card ===
-  const NoteCard = ({ note }: { note: any }) => {
-    const author = users.find((u) => u.id === note.userId)
-
-    return (
-      <div className={`${styles.noteCard} ${note.isPinned ? styles.noteCardPinned : ""}`}>
-        <div className={styles.noteHeader}>
-          <span className={styles.categoryBadge}>
-            {author?.role === "admin" ? "Administración" : "General"}
-          </span>
-          <button
-            className={`${styles.pinButton} ${note.isPinned ? styles.pinButtonActive : ""}`}
-            onClick={() => togglePin(note.id, note.isPinned)}
-            title={note.isPinned ? "Desfijar" : "Fijar"}
-          >
-            <MdPushPin size={18} />
-          </button>
-        </div>
-        <h3 className={styles.noteTitle}>{note.title}</h3>
-        <p className={styles.noteContent}>{note.description}</p>
-        <div className={styles.noteFooter}>
-          <div className={styles.noteMeta}>
-            <span className={styles.noteAuthor}>{author?.name ?? "Usuario desconocido"}</span>
-            <span className={styles.noteDate}>
-              {new Date(note.createdAt).toLocaleDateString("es-ES")}
-            </span>
-          </div>
-          <div className={styles.noteActions}>
-            <button className={styles.actionButton} title="Editar">
-              <MdEdit size={16} />
-            </button>
-            <button
-              className={styles.actionButtonDanger}
-              onClick={() => handleDelete(note.id)}
-              title="Eliminar"
-            >
-              <MdDelete size={16} />
-            </button>
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className={styles.notesView}>
-      {/* === Header === */}
+      {/* Header */}
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Notas</h1>
@@ -101,62 +50,149 @@ export default function NotesView() {
         </button>
       </div>
 
-      {/* === Filtros === */}
+      {/* Filters */}
       <div className={styles.filters}>
-        <div className={styles.filterGroup}>
-          <label>Usuario:</label>
-          <select
-            value={filterUser}
-            onChange={(e) => setFilterUser(e.target.value)}
-            className={styles.select}
-          >
-            <option value="todos">Todos</option>
-            {users.map((u) => (
-              <option key={u.id} value={u.id}>
-                {u.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
+        <FilterSelect
+          label="Usuario:"
+          value={filterUser}
+          onChange={setFilterUser}
+          options={[{ value: "todos", label: "Todos" }, ...users.map((u) => ({ value: u.id, label: u.name }))]}
+        />
         <div className={styles.stats}>
-          <span className={styles.statItem}>
-            Total: <strong>{notes.length}</strong>
-          </span>
-          <span className={styles.statItem}>
-            Fijadas: <strong>{pinnedNotes.length}</strong>
-          </span>
+          <Stat label="Total" value={notes.length} />
+          <Stat label="Fijadas" value={pinnedNotes.length} />
         </div>
       </div>
 
-      {/* === Secciones === */}
+      {/* Sections */}
       {pinnedNotes.length > 0 && (
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Notas Fijadas</h2>
-          <div className={styles.notesGrid}>
-            {pinnedNotes.map((note) => (
-              <NoteCard key={note.id} note={note} />
-            ))}
-          </div>
-        </div>
+        <Section title="Notas Fijadas">
+          {pinnedNotes.map((n) => (
+            <NoteCard key={n.id} note={n} users={users} onTogglePin={togglePin} onDelete={handleDelete} />
+          ))}
+        </Section>
       )}
 
       {regularNotes.length > 0 && (
-        <div className={styles.section}>
-          <h2 className={styles.sectionTitle}>Todas las Notas</h2>
-          <div className={styles.notesGrid}>
-            {regularNotes.map((note) => (
-              <NoteCard key={note.id} note={note} />
-            ))}
-          </div>
-        </div>
+        <Section title="Todas las Notas">
+          {regularNotes.map((n) => (
+            <NoteCard key={n.id} note={n} users={users} onTogglePin={togglePin} onDelete={handleDelete} />
+          ))}
+        </Section>
       )}
 
-      {filteredNotes.length === 0 && (
-        <div className={styles.emptyState}>
-          <p>No se encontraron notas</p>
-        </div>
-      )}
+      {filteredNotes.length === 0 && <div className={styles.emptyState}>No se encontraron notas</div>}
     </div>
+  )
+}
+
+/* ===========================
+   Componentes UI reutilizables
+=========================== */
+
+function FilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string
+  value: string
+  onChange: (val: string) => void
+  options: { value: string; label: string }[]
+}) {
+  return (
+    <div className={styles.filterGroup}>
+      <label>{label}</label>
+      <select value={value} onChange={(e) => onChange(e.target.value)} className={styles.select}>
+        {options.map((opt) => (
+          <option key={opt.value} value={opt.value}>
+            {opt.label}
+          </option>
+        ))}
+      </select>
+    </div>
+  )
+}
+
+function Stat({ label, value }: { label: string; value: number }) {
+  return (
+    <span className={styles.statItem}>
+      {label}: <strong>{value}</strong>
+    </span>
+  )
+}
+
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className={styles.section}>
+      <h2 className={styles.sectionTitle}>{title}</h2>
+      <div className={styles.notesGrid}>{children}</div>
+    </div>
+  )
+}
+
+function NoteCard({
+  note,
+  users,
+  onTogglePin,
+  onDelete,
+}: {
+  note: any
+  users: any[]
+  onTogglePin: (id: string, isPinned: boolean) => void
+  onDelete: (id: string) => void
+}) {
+  const author = users.find((u) => u.id === note.userId)
+
+  return (
+    <div className={`${styles.noteCard} ${note.isPinned ? styles.noteCardPinned : ""}`}>
+      <div className={styles.noteHeader}>
+        <span className={styles.categoryBadge}>
+          {author?.role === "admin" ? "Administración" : "General"}
+        </span>
+        <button
+          className={`${styles.pinButton} ${note.isPinned ? styles.pinButtonActive : ""}`}
+          onClick={() => onTogglePin(note.id, note.isPinned)}
+          title={note.isPinned ? "Desfijar" : "Fijar"}
+        >
+          <MdPushPin size={18} />
+        </button>
+      </div>
+      <h3 className={styles.noteTitle}>{note.title}</h3>
+      <p className={styles.noteContent}>{note.description}</p>
+      <div className={styles.noteFooter}>
+        <div className={styles.noteMeta}>
+          <span className={styles.noteAuthor}>{author?.name ?? "Usuario desconocido"}</span>
+          <span className={styles.noteDate}>{new Date(note.createdAt).toLocaleDateString("es-ES")}</span>
+        </div>
+        <div className={styles.noteActions}>
+          <IconButton icon={<MdEdit size={16} />} title="Editar" />
+          <IconButton icon={<MdDelete size={16} />} title="Eliminar" danger onClick={() => onDelete(note.id)} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function IconButton({
+  icon,
+  title,
+  onClick,
+  danger,
+}: {
+  icon: React.ReactNode
+  title: string
+  onClick?: () => void
+  danger?: boolean
+}) {
+  return (
+    <button
+      className={danger ? styles.actionButtonDanger : styles.actionButton}
+      onClick={onClick}
+      title={title}
+    >
+      {icon}
+    </button>
   )
 }

@@ -82,6 +82,16 @@
   --input: var(--gray-400);
   --ring: var(--color-info);
 
+  /* Texto principal */
+  --foreground: hsl(0, 0%, 100%);
+
+  /* Texto descriptivo / secundario */
+  --muted-foreground: hsl(0, 0%, 44%); /* antes era muy claro, ahora más marcado */
+  --color-fg-h: hsl(220 12% 30%);       /* headings / labels */
+
+  /* Texto aún más sutil (ej. helper text) */
+  --color-muted: hsl(220 8% 45%);
+
   /* Sidebar */
   --sidebar: var(--gray-800);
   --sidebar-foreground: var(--color-fg);
@@ -111,6 +121,16 @@
   --card-foreground: var(--color-fg);
   --border: var(--gray-600);
   --input: var(--gray-600);
+  /* Texto principal en oscuro */
+  --foreground: hsl(220 15% 92%);
+
+  /* Texto descriptivo / secundario */
+  --muted-foreground: hsl(220 10% 70%); /* más contraste que el gris pálido anterior */
+  --color-fg-h: hsl(220 12% 78%);
+
+  /* Texto sutil */
+  --color-muted: hsl(220 8% 60%);
+
 }
 
 /* === Base Typography === */
