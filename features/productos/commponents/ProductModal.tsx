@@ -6,9 +6,10 @@ import { useGlobal } from "@/features/context/GlobalContext" // ✅ ahora usamos
 import type { Product } from "@/features/context/GlobalContext" // ✅ Product viene del global
 import styles from "../styles/ProductModal.module.css"
 
-interface ProductModalProps {
+export type ProductModalProps = {
   product: Product | null
   onClose: () => void
+  onSave: (data: Product | Omit<Product, "id" | "createdAt" | "updatedAt">) => Promise<void>
 }
 
 export default function ProductModal({ product, onClose }: ProductModalProps) {
