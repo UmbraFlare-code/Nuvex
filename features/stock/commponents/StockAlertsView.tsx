@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useGlobal, type Product } from "@/features/context/GlobalContext" // ✅ usa GlobalContext
 import ProductModal from "@/features/productos/commponents/ProductModal"
 import styles from "../styles/StockAlertsView.module.css"
+import { Parameters } from "@storybook/react"
 
 export default function StockAlertsView() {
   const { products, updateProduct, getLowStockProducts } = useGlobal()
@@ -210,7 +211,17 @@ export default function StockAlertsView() {
       )}
 
       {isModalOpen && (
-        <ProductModal product={editingProduct} onClose={handleCloseModal} />
+        <ProductModal
+          product={editingProduct}
+          onClose={handleCloseModal}
+          onSave={async (data: Parameters) => {
+            if (editingProduct) {
+              // Update existing product
+              await updateProduct(editingProduct.id, data)
+            }
+            handleCloseModal()
+          }}
+        />
       )}
     </div>
   )

@@ -64,8 +64,8 @@ export default function ItemRequestsView({ isAdmin = false, currentUser }: ItemR
             products={products}
             users={users}
             isAdmin={isAdmin}
-            onApprove={note => updateStatus(req.id, "accepted", note)}
-            onReject={note => updateStatus(req.id, "rejected", note)}
+            onApprove={(note: string)=> updateStatus(req.id, "accepted", note)}
+            onReject={(note: string) => updateStatus(req.id, "rejected", note)}
           />
         ))}
       </div>
