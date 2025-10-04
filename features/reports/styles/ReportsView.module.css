@@ -1,0 +1,196 @@
+.reportsView {
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  background: var(--background); /* gris oscuro */
+  color: var(--text); /* texto claro */
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 4px 0 0;
+}
+
+.downloadButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-fg);
+  color: var(--background);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.downloadButton:hover {
+  background: var(--color-fg-h);
+  transform: translateY(-1px);
+}
+
+/* FILTROS */
+.filtersCard {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.filtersHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.filterGroup label {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.select,
+.input {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--background-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--text);
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+.select:focus,
+.input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--background);
+}
+
+/* CHARTS */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: var(--space-lg);
+}
+
+.chartCard {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.chartTitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0;
+}
+
+/* RECHARTS tooltip override */
+.recharts-default-tooltip {
+  background: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius-md) !important;
+  color: var(--text) !important;
+  padding: var(--space-sm) var(--space-md) !important;
+}
+
+/* SUMMARY */
+.summaryCard {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+}
+
+.summaryTitle {
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 var(--space-md);
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  background: var(--background-alt);
+}
+
+.summaryLabel {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-bottom: var(--space-xs);
+}
+
+.summaryValue {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .chartsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .filtersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .downloadButton span {
+    display: none; /* solo icono en pantallas pequeñas */
+  }
+}

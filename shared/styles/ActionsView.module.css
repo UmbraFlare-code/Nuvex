@@ -1,0 +1,302 @@
+.actionsView {
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  background: var(--background); /* gris oscuro */
+  color: var(--text);
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-fg);
+  color: var(--background);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.addButton:hover {
+  background: var(--color-fg-h);
+  transform: translateY(-1px);
+}
+
+/* FILTERS */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  align-items: flex-end;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.filterGroup label {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.select {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--background-alt);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  color: var(--text);
+  transition: border 0.2s ease, background 0.2s ease;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.stats {
+  margin-left: auto;
+  display: flex;
+  gap: var(--space-lg);
+  align-items: center;
+}
+
+.statItem {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.statItem strong {
+  color: var(--text-strong);
+}
+
+/* CARDS */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.actionCard {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.actionCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Card Header */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  color: white;
+}
+
+.cardActions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.cardActionButton,
+.cardActionButtonDanger {
+  padding: var(--space-xs);
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--background-alt);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.cardActionButton:hover {
+  background: var(--background);
+  color: var(--primary);
+}
+
+.cardActionButtonDanger:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Card Body */
+.cardBody {
+  margin-top: var(--space-md);
+  flex: 1;
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.typeBadge {
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.cardDate {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0 0 var(--space-sm);
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+}
+
+.infoLabel {
+  color: var(--text-muted);
+}
+
+.infoValue {
+  color: var(--text);
+}
+
+.quantityPositive {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.quantityNegative {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Card Footer */
+.cardFooter {
+  margin-top: var(--space-md);
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+/* TIPOS */
+.typeEntrada {
+  background: #10b981;
+}
+
+.typeSalida {
+  background: #ef4444;
+}
+
+.typeAjuste {
+  background: #f59e0b;
+}
+
+/* ESTADOS */
+.statusCompletada {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10b981;
+}
+
+.statusPendiente {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+}
+
+.statusCancelada {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* Empty */
+.emptyState {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--space-xl);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats {
+    margin-left: 0;
+    justify-content: space-between;
+    width: 100%;
+  }
+}

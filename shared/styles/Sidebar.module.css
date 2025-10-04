@@ -1,0 +1,223 @@
+/* === Sidebar Container === */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100dvh; /* mejor que 100vh para iOS mobile */
+  width: clamp(220px, 20vw, 260px);
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease, transform 0.3s ease;
+  z-index: 100;
+  overflow: hidden;
+}
+
+/* === Header === */
+.sidebarHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border);
+  justify-content: flex-start;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.appName {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-semibold);
+  color: var(--sidebar-foreground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* === Navigation === */
+.nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) var(--space-lg);
+  gap: var(--space-xs);
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--sidebar-foreground);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: background 0.2s ease, color 0.2s ease, padding 0.2s ease;
+}
+
+.navItem:hover {
+  background: var(--sidebar-accent);
+  color: var(--sidebar-accent-foreground);
+}
+
+.navItemActive {
+  background: var(--color-fg);
+  color: var(--sidebar-primary-foreground);
+}
+
+.navIcon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.navLabel {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* === Footer === */
+.sidebarFooter {
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--foreground);
+  flex-shrink: 0;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  min-width: 0; /* ayuda con text-overflow */
+}
+
+.userName {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  color: var(--foreground);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.userRole {
+  font-size: var(--font-size-xs);
+  color: var(--muted-foreground);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--foreground);
+  background: var(--gray-100);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-sm) var(--space-md);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logoutButton:hover {
+  background: var(--muted);
+  transform: scale(1.02);
+}
+
+/* === Tablet (compact sidebar) === */
+@media (max-width: 1024px) {
+  .sidebar {
+    width: 80px;
+  }
+
+  .appName,
+  .navLabel,
+  .userDetails,
+  .logoutButton span {
+    display: none;
+  }
+
+  .navItem {
+    justify-content: center;
+  }
+
+  .sidebarFooter {
+    align-items: center;
+  }
+
+  .userAvatar {
+    margin: 0 auto;
+  }
+}
+
+/* === Hamburger Button (solo móvil) === */
+.hamburger {
+  display: none;
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  z-index: 200; /* por encima del sidebar */
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background: var(--foreground);
+  margin: 5px 0;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+}
+
+/* === Mobile (slide-in sidebar) === */
+@media (max-width: 520px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 70%;
+    max-width: 260px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  .hamburger {
+    display: block;
+  }
+}

@@ -1,0 +1,285 @@
+.employeeView {
+  max-width: 1200px;
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  background: var(--background);
+  color: var(--text);
+}
+
+/* HEADER */
+.header {
+  margin-bottom: var(--space-xl);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: 700;
+  color: var(--text-strong);
+  margin: 0 0 var(--space-xs);
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* TOOLBAR */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.searchBox,
+.filterBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.searchBox {
+  flex: 1;
+  min-width: 250px;
+}
+
+.searchIcon {
+  font-size: var(--font-size-md);
+  color: var(--text-muted);
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+  color: var(--text);
+}
+.searchInput:focus {
+  outline: none;
+}
+
+.filterLabel {
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.filterSelect {
+  border: none;
+  background: transparent;
+  font-size: var(--font-size-sm);
+  font-family: var(--font-sans);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 500;
+}
+.filterSelect:focus {
+  outline: none;
+}
+
+/* GRID */
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--space-lg);
+}
+
+/* CARD */
+.productCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.productCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.productHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.productName {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--text-strong);
+  margin: 0;
+  flex: 1;
+}
+
+.categoryBadge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.productDescription {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-lg);
+  line-height: 1.5;
+}
+
+.productDetails {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+  padding: var(--space-md);
+  background: var(--muted);
+  border-radius: var(--radius-md);
+}
+
+.detailItem {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailLabel {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.detailValue {
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.productFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* STATUS */
+.statusBadgeGood,
+.statusBadgeWarning,
+.statusBadgeLow {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+}
+
+.statusBadgeGood {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+}
+
+.statusBadgeWarning {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+}
+
+.statusBadgeLow {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+
+/* EMPTY STATE */
+.emptyState {
+  padding: var(--space-xl);
+  text-align: center;
+  color: var(--text-muted);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ALERT */
+.alertBox {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-warning-bg);
+  border: 1px solid var(--color-warning);
+  border-radius: var(--radius-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.alertIcon {
+  font-size: var(--font-size-xl);
+  color: var(--color-warning);
+}
+
+.alertContent {
+  flex: 1;
+}
+
+.alertTitle {
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-warning);
+  margin: 0 0 var(--space-xs);
+}
+
+.alertMessage {
+  font-size: var(--font-size-sm);
+  color: var(--text);
+  margin: 0;
+}
+
+/* STOCK TABLE */
+.stockTable {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* === Botón Solicitar (Empleado) === */
+.requestButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-info);
+  color: #fff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.requestButton:hover {
+  background: #1e3a8a; /* un azul más oscuro para hover */
+  transform: translateY(-1px);
+}
+
+.requestButton:active {
+  transform: scale(0.97);
+}
+
+.requestButton:disabled {
+  background: var(--color-muted);
+  color: var(--text-muted);
+  cursor: not-allowed;
+}

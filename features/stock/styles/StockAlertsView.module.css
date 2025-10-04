@@ -1,0 +1,365 @@
+.alertsView {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: var(--spacing-xl);
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin: 0 0 var(--spacing-xs) 0;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.summaryCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+}
+
+.summaryCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.summaryIcon {
+  font-size: 2rem;
+}
+
+.summaryContent {
+  flex: 1;
+}
+
+.summaryValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-foreground);
+  line-height: 1;
+  margin-bottom: var(--spacing-xs);
+}
+
+.summaryLabel {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+.section {
+  margin-bottom: var(--spacing-2xl);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin: 0;
+}
+
+.sectionBadge {
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.alertsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.alertCard {
+  display: flex;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background: var(--color-card);
+  border: 2px solid rgba(220, 38, 38, 0.2);
+  border-radius: var(--radius-lg);
+  transition: box-shadow 0.2s;
+}
+
+.alertCard:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.alertIcon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.alertContent {
+  flex: 1;
+}
+
+.alertHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.alertTitle {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin: 0;
+}
+
+.categoryBadge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.alertDescription {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+.alertStats {
+  display: flex;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.statLabel {
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.statValue {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.statValueDanger {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+
+.alertActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.actionButtonPrimary {
+  padding: 0.75rem 1.25rem;
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.actionButtonPrimary:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.actionButtonSecondary {
+  padding: 0.75rem 1.25rem;
+  background: transparent;
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.actionButtonSecondary:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.warningList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.warningCard {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  background: var(--color-card);
+  border: 1px solid rgba(234, 88, 12, 0.2);
+  border-radius: var(--radius-md);
+  transition: box-shadow 0.2s;
+}
+
+.warningCard:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+.warningIcon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.warningContent {
+  flex: 1;
+}
+
+.warningHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xs);
+  flex-wrap: wrap;
+}
+
+.warningTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin: 0;
+}
+
+.warningStats {
+  display: flex;
+  gap: var(--spacing-lg);
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.warningStatItem strong {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+.warningActions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+.actionButtonSmall {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--color-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-sans);
+  white-space: nowrap;
+}
+
+.actionButtonSmall:hover {
+  background-color: rgba(37, 99, 235, 0.1);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.emptyState {
+  padding: var(--spacing-2xl);
+  text-align: center;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.emptyIcon {
+  font-size: 3rem;
+  margin-bottom: var(--spacing-md);
+}
+
+.emptyTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-foreground);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.emptyMessage {
+  font-size: 1rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .summaryCards {
+    grid-template-columns: 1fr;
+  }
+
+  .alertCard {
+    flex-direction: column;
+  }
+
+  .alertActions {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .actionButtonPrimary,
+  .actionButtonSecondary {
+    flex: 1;
+  }
+
+  .warningCard {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .warningActions {
+    width: 100%;
+  }
+
+  .actionButtonSmall {
+    flex: 1;
+  }
+}

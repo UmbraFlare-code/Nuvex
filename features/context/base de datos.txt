@@ -1,0 +1,162 @@
+-- =========================================
+-- TABLA DE USUARIOS
+-- =========================================
+create table if not exists users (
+  id uuid primary key default gen_random_uuid(),
+  username text unique not null,
+  name text not null,
+  email text unique not null,
+  password text not null,
+  role text check (role in ('admin','employee')) default 'employee',
+  status text check (status in ('active','inactive')) default 'active',
+  created_at timestamp with time zone default now()
+);
+
+-- =========================================
+-- TABLA DE PRODUCTOS
+-- =========================================
+create table if not exists products (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  category text not null,
+  price numeric not null,
+  stock int not null default 0,
+  min_stock int not null default 0,
+  description text,
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+);
+
+-- =========================================
+-- TABLA DE NOTAS (ligada a users)
+-- =========================================
+create table if not exists notes (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references users(id) on delete cascade,
+  title text not null,
+  description text not null,
+  is_pinned boolean default false,
+  created_at timestamp with time zone default now()
+  alter table notes add column updated_at timestamp with time zone default now();
+);
+
+-- =========================================
+-- TABLA DE SOLICITUDES (ligada a users y products)
+-- =========================================
+create table if not exists requests (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references users(id) on delete cascade,
+  title text not null,
+  reason text,
+  status text check (status in ('pending','accepted','rejected')) default 'pending',
+  product_id uuid not null references products(id) on delete cascade,
+  quantity int not null,
+  created_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+);
+
+-- =========================================
+-- TABLA DE SOLICITUDES DE REGISTRO
+-- =========================================
+create table if not exists registration_requests (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  email text not null,
+  password text not null,
+  role text check (role in ('admin','employee')) default 'employee',
+  status text check (status in ('pending','approved','rejected')) default 'pending',
+  requested_at timestamp with time zone default now(),
+  updated_at timestamp with time zone default now()
+);
+
+-- =========================================
+-- DATOS DE EJEMPLO
+-- =========================================
+
+-- Usuarios
+insert into users (username, name, email, password, role, status)
+values
+  ('admin', 'Administrador General', 'admin@empresa.com', 'admin123', 'admin', 'active'),
+  ('jlopez', 'Juan López', 'juan@empresa.com', 'password123', 'employee', 'active'),
+  ('mrodriguez', 'María Rodríguez', 'maria@empresa.com', 'password123', 'employee', 'active');
+
+-- Productos (motores eléctricos y componentes)
+insert into products (name, category, price, stock, min_stock, description)
+values
+  ('Motor trifásico 5HP', 'Motores', 850.00, 10, 2, 'Motor trifásico de 5 caballos de fuerza para uso industrial.'),
+  ('Bobina de cobre', 'Componentes', 120.00, 50, 10, 'Bobina de cobre esmaltado para reparaciones de motores.'),
+  ('Condensador 50uF', 'Componentes', 15.00, 80, 20, 'Condensador de arranque de 50 microfaradios.'),
+  ('Rotor industrial', 'Repuestos', 300.00, 5, 2, 'Rotor de repuesto para motor trifásico.'),
+  ('Transformador 220V a 110V', 'Transformadores', 200.00, 12, 3, 'Transformador reductor de voltaje para maquinaria.');
+
+-- Notas (ejemplo con referencias a usuarios)
+insert into notes (user_id, title, description, is_pinned)
+values
+  ((select id from users where username='admin'), 'Revisión de seguridad', 'Verificar el estado de las instalaciones eléctricas del taller.', true),
+  ((select id from users where username='jlopez'), 'Inventario', 'Revisar el stock de bobinas y condensadores.', false),
+  ((select id from users where username='mrodriguez'), 'Capacitación', 'Organizar capacitación en diagnóstico de motores trifásicos.', false);
+
+-- Requests (ejemplo con referencias a usuarios y productos)
+insert into requests (user_id, title, reason, status, product_id, quantity)
+values
+  ((select id from users where username='jlopez'), 'Solicitud de bobinas', 'Reparación de motor en taller cliente A.', 'pending', (select id from products where name='Bobina de cobre'), 10),
+  ((select id from users where username='mrodriguez'), 'Pedido de condensadores', 'Reemplazo en equipos de climatización.', 'pending', (select id from products where name='Condensador 50uF'), 20),
+  ((select id from users where username='admin'), 'Adquisición de motor', 'Se requiere motor de repuesto para cliente industrial.', 'accepted', (select id from products where name='Motor trifásico 5HP'), 2);
+
+-- Registration Requests
+insert into registration_requests (name, email, password, role, status)
+values
+  ('Carlos Méndez', 'carlos@empresa.com', 'password123', 'employee', 'pending'),
+  ('Ana Torres', 'ana@empresa.com', 'password123', 'employee', 'pending'),
+  ('Luis Martínez', 'luis@empresa.com', 'password123', 'employee', 'rejected');
+-- Tabla de acciones sobre el inventario
+CREATE TABLE actions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  type TEXT NOT NULL CHECK (type IN ('entrada', 'salida', 'ajuste', 'uso', 'retorno')),
+  product_id UUID NOT NULL REFERENCES products(id) ON DELETE CASCADE,
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  quantity INT NOT NULL CHECK (quantity <> 0),
+  reason TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'pendiente' CHECK (status IN ('completada', 'pendiente', 'cancelada')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT now(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT now()
+);
+
+-- Índices para optimizar búsquedas frecuentes
+CREATE INDEX idx_actions_product_id ON actions(product_id);
+CREATE INDEX idx_actions_user_id ON actions(user_id);
+CREATE INDEX idx_actions_type ON actions(type);
+CREATE INDEX idx_actions_status ON actions(status);
+
+-- Admin agrega motores al stock
+INSERT INTO actions (type, product_id, user_id, quantity, reason, status)
+VALUES (
+  'entrada',
+  (SELECT id FROM products WHERE name = 'Motor trifásico 5HP' LIMIT 1),
+  (SELECT id FROM users WHERE email = 'admin@inventario.com' LIMIT 1),
+  5,
+  'Compra inicial de motores trifásicos para taller',
+  'completada'
+);
+
+-- Empleado usa bobinas de cobre
+INSERT INTO actions (type, product_id, user_id, quantity, reason, status)
+VALUES (
+  'uso',
+  (SELECT id FROM products WHERE name = 'Bobina de cobre' LIMIT 1),
+  (SELECT id FROM users WHERE email = 'empleado@inventario.com' LIMIT 1),
+  -3,
+  'Reparación de motor industrial',
+  'pendiente'
+);
+
+-- Empleado devuelve transformador no utilizado
+INSERT INTO actions (type, product_id, user_id, quantity, reason, status)
+VALUES (
+  'retorno',
+  (SELECT id FROM products WHERE name = 'Transformador 220V a 110V' LIMIT 1),
+  (SELECT id FROM users WHERE email = 'empleado@inventario.com' LIMIT 1),
+  1,
+  'Equipo no utilizado en instalación',
+  'completada'
+);

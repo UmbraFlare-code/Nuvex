@@ -1,0 +1,299 @@
+.productsView {
+  padding: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  color: var(--text);
+}
+
+/* === Header === */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-sm);
+}
+
+.title {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-strong);
+  margin: 0;
+}
+
+.subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-fg);
+  color: var(--background);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.addButton:hover {
+  background: var(--color-fg-h);
+  transform: translateY(-1px);
+}
+
+.addButton svg {
+  flex-shrink: 0;
+}
+
+/* === Toolbar === */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.searchBox {
+  position: relative;
+  flex: 1;
+  max-width: 400px;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 50%;
+  left: var(--space-sm);
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md) var(--space-sm) 2rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--font-size-sm);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--color-info);
+  box-shadow: 0 0 0 2px rgba(45, 91, 218, 0.4);
+}
+
+.stats {
+  display: flex;
+  gap: var(--space-lg);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.statItem strong {
+  color: var(--text-strong);
+}
+
+/* === Cards Grid === */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.productCard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: var(--space-md);
+}
+
+.productCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+/* === Card Header === */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.cardIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--color-info-bg);
+  color: var(--color-info);
+}
+
+.cardActions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.cardActionButton,
+.cardActionButtonDanger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s;
+}
+
+.cardActionButton {
+  background: var(--surface-alt);
+  color: var(--text);
+}
+.cardActionButton:hover {
+  background: var(--accent);
+}
+
+.cardActionButtonDanger {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+}
+.cardActionButtonDanger:hover {
+  background: #7f1d1d;
+  color: white;
+}
+
+/* === Card Body === */
+.cardBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cardTitle {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
+  color: var(--text-strong);
+}
+
+.cardDescription {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0 0 var(--space-sm);
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-sm);
+}
+
+.infoLabel {
+  color: var(--text-muted);
+}
+
+.categoryBadge {
+  background: var(--color-info-bg);
+  color: var(--color-info);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.priceValue,
+.stockValue,
+.minStockValue {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-strong);
+}
+
+/* === Card Footer === */
+.cardFooter {
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+}
+
+.statusBadgeLow,
+.statusBadgeWarning,
+.statusBadgeGood {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+}
+
+.statusBadgeLow {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--color-danger);
+}
+
+.statusBadgeWarning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--color-warning);
+}
+
+.statusBadgeGood {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--color-success);
+}
+
+/* === Empty State === */
+.emptyState {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-md);
+  padding: var(--space-2xl);
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .stats {
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .addButton span {
+    display: none; /* en móvil solo icono */
+  }
+}
