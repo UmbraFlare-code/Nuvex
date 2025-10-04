@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useMemo } from "react"
-import { MdDownload, MdFilterList } from "react-icons/md"
+import { MdFilterList } from "react-icons/md"
 import { useGlobal } from "@/features/context/GlobalContext"
 import {
   BarChart,
@@ -14,12 +14,6 @@ import {
   ResponsiveContainer,
 } from "recharts"
 import styles from "../styles/ReportsView.module.css"
-
-// ⚡ Importar pdfmake
-import pdfMake from "pdfmake/build/pdfmake"
-import * as pdfFonts from "pdfmake/build/vfs_fonts"
-
-;(pdfMake as any).vfs = (pdfFonts as any).pdfMake?.vfs || (pdfFonts as any).vfs
 
 export default function ReportsView() {
   const { products, actions, users } = useGlobal()
@@ -55,90 +49,14 @@ export default function ReportsView() {
     return Object.entries(counts).map(([name, acciones]) => ({ name, acciones }))
   }, [actions, users])
 
-  // === Descargar reporte PDF con pdfmake ===
-  const handleDownloadPDF = () => {
-    const totalValue = products.reduce((sum, p) => sum + p.price * p.stock, 0)
-
-    const docDefinition: any = {
-      content: [
-        { text: "REPORTE DE INVENTARIO", style: "header" },
-        {
-          text: `Tipo de Reporte: ${filterType === "producto" ? "Por Producto" : "Por Empleado"}`,
-          margin: [0, 10, 0, 0],
-        },
-        { text: `Fecha: ${new Date().toLocaleDateString("es-ES")}` },
-        { text: `Período: ${dateFrom} - ${dateTo}`, margin: [0, 0, 0, 10] },
-
-        { text: "Resumen", style: "subheader" },
-        {
-          ul: [
-            `Total de Productos: ${products.length}`,
-            `Valor Total del Inventario: $${totalValue.toFixed(2)}`,
-            `Productos con Stock Bajo: ${products.filter((p) => p.stock <= p.minStock).length}`,
-            `Categorías Activas: ${new Set(products.map((p) => p.category)).size}`,
-          ],
-        },
-
-        { text: "Productos", style: "subheader", margin: [0, 15, 0, 5] },
-        {
-          table: {
-            widths: ["*", "auto", "auto", "auto"],
-            body: [
-              ["Producto", "Categoría", "Stock", "Valor Total"],
-              ...products.map((p) => [
-                p.name,
-                p.category,
-                p.stock,
-                `$${(p.price * p.stock).toFixed(2)}`,
-              ]),
-            ],
-          },
-        },
-
-        { text: "Acciones por Empleado", style: "subheader", margin: [0, 15, 0, 5] },
-        {
-          table: {
-            widths: ["*", "auto"],
-            body: [
-              ["Empleado", "Acciones"],
-              ...employeeActions.map((e) => [e.name, e.acciones.toString()]),
-            ],
-          },
-        },
-
-        { text: "Movimientos Mensuales", style: "subheader", margin: [0, 15, 0, 5] },
-        {
-          table: {
-            widths: ["auto", "auto", "auto"],
-            body: [
-              ["Mes", "Entradas", "Salidas"],
-              ...productMovements.map((m) => [m.month, m.entradas, m.salidas]),
-            ],
-          },
-        },
-      ],
-      styles: {
-        header: { fontSize: 18, bold: true, alignment: "center", margin: [0, 0, 0, 10] },
-        subheader: { fontSize: 14, bold: true, margin: [0, 10, 0, 5] },
-      },
-      defaultStyle: { fontSize: 10 },
-    }
-
-    pdfMake.createPdf(docDefinition).download(`reporte-inventario-${new Date().toISOString().split("T")[0]}.pdf`)
-  }
-
   return (
     <div className={styles.reportsView}>
       {/* Header */}
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Reportes</h1>
-          <p className={styles.subtitle}>Genere y descargue reportes de inventario</p>
+          <p className={styles.subtitle}>Visualiza el inventario y sus movimientos</p>
         </div>
-        <button className={styles.downloadButton} onClick={handleDownloadPDF}>
-          <MdDownload size={20} />
-          <span>Descargar PDF</span>
-        </button>
       </div>
 
       {/* Filtros */}
@@ -198,7 +116,7 @@ export default function ReportsView() {
         </div>
       </div>
 
-      {/* Charts (se mantienen con Recharts) */}
+      {/* Charts */}
       <div className={styles.chartsGrid}>
         <div className={styles.chartCard}>
           <h3 className={styles.chartTitle}>Movimientos de Productos</h3>
