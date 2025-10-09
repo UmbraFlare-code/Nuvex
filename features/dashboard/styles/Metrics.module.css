@@ -1,0 +1,36 @@
+/* features/dashboard/styles/Metrics.module.css */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-lg);
+}
+
+.metricCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.metricCard:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+
+.metricHeader { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-md); }
+.metricLabel { font-size: var(--font-size-xs); font-weight: 500; color: var(--muted-foreground); }
+.metricIcon { font-size: 1.6rem; }
+
+.metricCard:nth-child(1) .metricIcon { color: #3b82f6; }
+.metricCard:nth-child(2) .metricIcon { color: #10b981; }
+.metricCard:nth-child(3) .metricIcon { color: #ef4444; }
+.metricCard:nth-child(4) .metricIcon { color: #f59e0b; }
+
+.metricValue { font-size: var(--font-size-2xl); font-weight: 700; color: var(--foreground); margin-bottom: var(--space-xs); }
+.metricFooter { display: flex; align-items: center; gap: var(--space-sm); }
+.metricBadge { font-size: var(--font-size-xs); font-weight: 600; padding: 0.25rem 0.5rem; border-radius: var(--radius-sm); text-transform: uppercase; }
+
+.metricCard:nth-child(1) .metricBadge { background: rgba(59,130,246,0.15); color: #3b82f6; }
+.metricCard:nth-child(2) .metricBadge { background: rgba(16,185,129,0.15); color: #10b981; }
+.metricCard:nth-child(3) .metricBadge { background: rgba(239,68,68,0.15); color: #ef4444; }
+.metricCard:nth-child(4) .metricBadge { background: rgba(245,158,11,0.15); color: #f59e0b; }
+
+.metricDescription { font-size: var(--font-size-xs); color: var(--muted-foreground); margin-top: var(--space-xs); }

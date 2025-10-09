@@ -1,16 +1,20 @@
 // lib/supabaseClient.ts
-"use client"
+import { createClient, type SupabaseClient } from "@supabase/supabase-js"
 
-import { createClient } from "@supabase/supabase-js"
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn("⚠️ Supabase env vars not set. Check your Vercel Environment Variables.")
+const globalForSupabase = globalThis as unknown as {
+  __sb?: SupabaseClient
 }
 
-export const supabase = createClient(
-  supabaseUrl || "https://placeholder.supabase.co", 
-  supabaseAnonKey || "public-anon-key-placeholder"
-)
+export const supabase =
+  globalForSupabase.__sb ??
+  (globalForSupabase.__sb = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storageKey: "inventario-auth", // 🔑 usa SIEMPRE el mismo storageKey
+      },
+    }
+  ))

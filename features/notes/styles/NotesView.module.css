@@ -2,206 +2,141 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-xl);
-  padding: var(--space-xl);
 }
 
-/* === Header === */
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-lg);
 }
+
 .title {
+  margin: 0 0 var(--space-xs);
   font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  margin: 0;
+  font-weight: 700;
 }
+
 .subtitle {
-  font-size: var(--font-size-sm);
-  color: var(--muted-foreground);
   margin: 0;
+  color: var(--muted-foreground);
+  font-size: var(--font-size-sm);
 }
-.addButton {
+
+.addButton, .quickButton {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-md);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  border: none;
+  gap: .5rem;
   background: var(--color-info);
   color: #fff;
-  transition: all 0.2s;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: .6rem .9rem;
+  font-weight: 700;
+  cursor: pointer;
 }
-.addButton:hover {
-  background: #1e3a8a;
-}
+.addButton:hover, .quickButton:hover { filter: brightness(.92); }
 
-/* === Filters === */
-.filters {
+.toolbar {
   display: flex;
-  flex-wrap: wrap;
   gap: var(--space-lg);
   align-items: center;
+  flex-wrap: wrap;
 }
+.searchGrow { flex: 1 1 260px; min-width: 260px; }
+
 .filterGroup {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-.filterGroup label {
-  font-size: var(--font-size-xs);
-  color: var(--muted-foreground);
-}
-.select {
-  padding: var(--space-sm) var(--space-md);
-  font-size: var(--font-size-sm);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--background);
-  color: var(--foreground);
-}
-.stats {
-  display: flex;
-  gap: var(--space-lg);
-  font-size: var(--font-size-sm);
-}
-.statItem strong {
-  font-weight: var(--font-weight-semibold);
-}
-
-/* === Sections === */
-.section {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-.sectionTitle {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  margin: 0;
-}
-.notesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: var(--space-lg);
-}
-
-/* === Note Card === */
-.noteCard {
+  display: inline-flex;
+  align-items: center;
+  max-height: 57px;
+  gap: .5rem;
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
-  padding: var(--space-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-  transition: box-shadow 0.2s;
+  border-radius: var(--radius-md);
+  padding: .5rem .75rem;
 }
-.noteCard:hover {
-  box-shadow: var(--shadow-lg);
+.label { font-size: var(--font-size-sm); color: var(--muted-foreground); }
+.select {
+  border: none;
+  background: transparent;
+  color: var(--foreground);
+  font-weight: 600;
+}
+.select:focus { outline: none; }
+
+.section { display: flex; flex-direction: column; gap: var(--space-md); }
+.sectionTitle {
+  font-size: var(--font-size-lg);
+  font-weight: 700;
+  margin: 0;
+}
+
+.notesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.noteCard {
+  border-left: 4px solid var(--accent);
 }
 .noteCardPinned {
-  border: 1px solid var(--color-info);
+  border-left-color: var(--color-warning);
 }
 
 .noteHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: var(--space-sm);
 }
-.categoryBadge {
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  background: rgba(37, 99, 235, 0.15);
-  color: var(--color-info);
-}
+
 .pinButton {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  color: var(--muted-foreground);
-  transition: color 0.2s;
-}
-.pinButton:hover {
-  color: var(--color-info);
-}
-.pinButtonActive {
-  color: var(--color-info);
-}
-
-.noteTitle {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
-  margin: 0;
-}
-.noteContent {
-  font-size: var(--font-size-sm);
-  color: var(--muted-foreground);
-  margin: 0;
-}
-
-.noteFooter {
-  margin-top: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: var(--font-size-xs);
-}
-.noteMeta {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-.noteAuthor {
-  font-weight: var(--font-weight-medium);
-}
-.noteDate {
-  color: var(--muted-foreground);
-}
-.noteActions {
-  display: flex;
-  gap: var(--space-sm);
-}
-
-/* === Buttons === */
-.actionButton,
-.actionButtonDanger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--space-xs);
-  font-size: var(--font-size-sm);
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.actionButton {
+  background: var(--muted);
   border: 1px solid var(--border);
-  background: transparent;
+  color: var(--muted-foreground);
+  cursor: pointer;
 }
-.actionButton:hover {
-  background: var(--gray-100);
+.pinButton:hover { color: var(--foreground); }
+.pinActive { background: var(--color-warning-bg); color: var(--color-warning); border-color: var(--color-warning); }
+
+.noteTitle {
+  margin: 0 0 .25rem;
+  font-weight: 700;
+  font-size: var(--font-size-md);
 }
-.actionButtonDanger {
-  border: none;
-  background: var(--color-danger);
-  color: #fff;
-}
-.actionButtonDanger:hover {
-  background: #7f1d1d;
+.noteContent {
+  margin: 0 0 .75rem;
+  color: var(--muted-foreground);
+  font-size: var(--font-size-sm);
 }
 
-/* === Empty State === */
-.emptyState {
-  text-align: center;
-  font-size: var(--font-size-md);
-  color: var(--muted-foreground);
-  padding: var(--space-2xl) 0;
+.noteFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
 }
+.noteMeta {
+  display: inline-flex;
+  gap: .6rem;
+  color: var(--muted-foreground);
+  font-size: var(--font-size-xs);
+}
+
+.noteActions { display: inline-flex; gap: .35rem; }
+
+.emptyState, .errorBox {
+  padding: var(--space-lg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  color: var(--muted-foreground);
+}
+

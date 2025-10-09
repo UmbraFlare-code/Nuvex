@@ -1,0 +1,60 @@
+/* features/dashboard/styles/Section.module.css */
+
+.sectionCard {
+  /* La base visual (bordes, fondo, padding) viene de card.dataCard */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--border);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.sectionSubtitle {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--muted-foreground);
+}
+
+/* Contenido de la sección */
+.sectionBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-md);
+}
+
+/* Variantes opcionales por si las necesitas en el futuro */
+.sectionHeaderRow {
+  /* Úsalo si quieres header en fila con acciones a la derecha */
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sectionActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sectionFooter {
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}

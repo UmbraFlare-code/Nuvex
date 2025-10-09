@@ -1,40 +1,43 @@
+// app/page.tsx
 "use client"
 
-import Login from "@/features/auth/components/Login"
-import AdminDashboard from "@/features/dashboard/commponents/AdminDashboard"
-import EmployeeDashboard from "@/features/dashboard/commponents/EmployeeDashboard" // ✅ corregido
-import { useGlobal, GlobalProvider } from "@/features/context/GlobalContext"
-import Loadingx from "@/shared/commponents/Loading"
-import ErrorBoundary from "@/shared/commponents/ErrorBoundary"
 import "./globals.css"
 
-function AppContent() {
-  const { currentUser, loading } = useGlobal()
+import { ToastProvider } from "@/shared/components/ToastProvider"
+import Login from "@/features/auth/components/Login"
+import AdminDashboard from "@/features/dashboard/AdminDashboard"
+import EmployeeDashboard from "@/features/dashboard/EmployeeDashboard"
+import DashboardSkeleton from "@/features/dashboard/components/DashboardSkeleton"
+import ErrorBoundary from "@/shared/components/ErrorBoundary"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 
-  // ⏳ Mientras carga datos iniciales (usuarios, productos, etc.)
+function AppContent() {
+  const { user, loading } = useAuth()
+
+    // ⏳ Paso 1: Mientras se valida sesión → skeleton
   if (loading) {
-    return <Loadingx />
+    return <DashboardSkeleton />
   }
 
-  // 👤 Si no hay usuario -> login
-  if (!currentUser) {
+  // 👤 Paso 2: Si no hay sesión → login
+  if (!user) {
     return <Login />
   }
 
-  // 🏠 Dashboard según rol
-  return (
-    <div className="app-container">
-      {currentUser.role === "admin" ? <AdminDashboard /> : <EmployeeDashboard />}
-    </div>
-  )
+  // 🏠 Paso 3: Si hay sesión → dashboard según rol
+  if (user.role === "admin") {
+    return <AdminDashboard />
+  }
+
+  return <EmployeeDashboard />
 }
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <GlobalProvider>
-      <ErrorBoundary>
+    <ErrorBoundary>
+      <ToastProvider>
         <AppContent />
-      </ErrorBoundary>
-    </GlobalProvider>
+      </ToastProvider>
+    </ErrorBoundary>
   )
 }

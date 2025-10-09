@@ -1,0 +1,84 @@
+/* features/dashboard/styles/Skeleton.module.css */
+@keyframes shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skel {
+  background: linear-gradient(90deg, var(--gray-600), var(--gray-400), var(--gray-600));
+  background-size: 200% 100%;
+  animation: shine 1.2s linear infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skelSidebarItem { composes: skel; height: 32px; margin-bottom: 8px; }
+.skelTitle       { composes: skel; height: 24px; width: 240px; }
+.skelSubtitle    { composes: skel; height: 14px; width: 180px; }
+.skelMeta        { composes: skel; height: 16px; width: 140px; }
+.skelMetricCard  { composes: skel; height: 120px; }
+.skelChartCard   { composes: skel; height: 320px; }
+.skelSectionTitle   { composes: skel; height: 20px; width: 220px; }
+.skelSectionSubtitle{ composes: skel; height: 14px; width: 180px; }
+.skelTable       { composes: skel; height: 200px; border-radius: var(--radius-md); }
+/* ----- Visibilidad por breakpoint ----- */
+.showOnDesktop { display: block; }
+.showOnMobile { display: none; }
+
+@media (max-width: 1024px) {
+  .showOnDesktop { display: none; }
+  .showOnMobile { display: block; }
+}
+
+/* ----- Topbar móvil (placeholder) ----- */
+.mobileTopBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--border);
+  background: var(--sidebar);
+}
+
+.skelIcon,
+.skelTitleWide,
+.skelAvatar {
+  background: linear-gradient(90deg, var(--gray-600), var(--gray-400), var(--gray-600));
+  background-size: 200% 100%;
+  animation: shine 1.2s linear infinite;
+  border-radius: var(--radius-sm);
+}
+
+.skelIcon { width: 28px; height: 28px; border-radius: var(--radius-md); }
+.skelTitleWide { height: 18px; width: 45%; border-radius: var(--radius-sm); }
+.skelAvatar { width: 28px; height: 28px; border-radius: var(--radius-full); }
+
+/* ----- Main sin margen lateral cuando el sidebar no está visible ----- */
+@media (max-width: 1024px) {
+  .mainNoSidebarOnMobile {
+    margin-left: 0 !important;
+    padding: var(--space-md);
+  }
+}
+
+/* ----- Ajustes de altura en móviles ----- */
+@media (max-width: 640px) {
+  .skelChartCard { height: 240px; }
+  .skelTable { height: 140px; }
+  .skelMetricCard { height: 96px; }
+}
+/* Campo tipo input/select “fantasma” */
+.skelInput {
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--muted);
+  border: 1px solid var(--border);
+  animation: sk-pulse 1.4s ease-in-out infinite;
+}
+
+/* (ya deberías tener una animación; si no, añade esta) */
+@keyframes sk-pulse {
+  0% { opacity: .6; }
+  50% { opacity: 1; }
+  100% { opacity: .6; }
+}

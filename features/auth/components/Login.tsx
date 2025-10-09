@@ -3,109 +3,42 @@
 import type React from "react"
 import { useState } from "react"
 import { MdLogin, MdPersonAdd } from "react-icons/md"
-import { useGlobal } from "@/features/context/GlobalContext"
-import { supabase } from "@/lib/supabaseClient"
+import { useAuth } from "@/features/auth/hooks/useAuth"
 import styles from "../styles/Login.module.css"
 
 export default function Login() {
+  const { login, requestRegister, loading, error, success, setError, setSuccess } = useAuth()
+
   const [isRegistering, setIsRegistering] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
 
-  const { users, registrationRequests, setCurrentUser } = useGlobal()
-
-  // ----------------------------
-  // Login handler
-  // ----------------------------
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
-    setSuccess("")
-
-    const { data, error: dbError } = await supabase
-      .from("users")
-      .select("*")
-      .eq("email", email)
-      .eq("status", "active")
-      .single()
-
-    if (dbError || !data) {
-      setError("Credenciales incorrectas o cuenta inactiva")
-      return
-    }
-
-    // ⚠️ Validación simple (demo)
-    if (
-      (email === "admin@inventario.com" && password !== "admin123") ||
-      (email === "empleado@inventario.com" && password !== "empleado123")
-    ) {
-      setError("Contraseña incorrecta")
-      return
-    }
-
-    // ✅ Guardamos usuario en el contexto global
-    setCurrentUser({
-      id: data.id,
-      name: data.name,
-      email: data.email,
-      role: data.role,
-      status: data.status,
-    })
-
-    setSuccess(`Bienvenido, ${data.name}`)
+    setError(null)
+    setSuccess(null)
+    try {
+      await login(email, password)
+      // No hacemos router.push ni refresh:
+      // El AuthContext se actualiza y la Home re-renderiza a Dashboard automáticamente.
+    } catch {/* error ya seteado */}
   }
 
-  // ----------------------------
-  // Registro handler
-  // ----------------------------
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError("")
-    setSuccess("")
-
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres")
-      return
-    }
-
-    const exists =
-      users.some((u) => u.email === email) ||
-      registrationRequests.some((r) => r.email === email)
-
-    if (exists) {
-      setError("El correo electrónico ya está registrado o pendiente")
-      return
-    }
-
-    const { error: dbError } = await supabase
-      .from("registration_requests")
-      .insert([
-        {
-          name,
-          email,
-          password, // ⚠️ en producción encriptar
-          status: "pending",
-          requested_at: new Date().toISOString(),
-        },
-      ])
-
-    if (dbError) {
-      setError("Hubo un problema al enviar la solicitud")
-      return
-    }
-
-    setSuccess("Solicitud enviada. Un administrador revisará su registro.")
-    setName("")
-    setEmail("")
-    setPassword("")
-
-    setTimeout(() => {
-      setIsRegistering(false)
-      setSuccess("")
-    }, 3000)
+    setError(null)
+    setSuccess(null)
+    try {
+      await requestRegister(name, email, password, "employee")
+      setName("")
+      setEmail("")
+      setPassword("")
+      setTimeout(() => {
+        setIsRegistering(false)
+        setSuccess(null)
+      }, 3000)
+    } catch {/* error ya seteado */}
   }
 
   return (
@@ -116,12 +49,7 @@ export default function Login() {
           <div className={styles.logo}>
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
               <rect width="32" height="32" rx="6" fill="#2563eb" />
-              <path
-                d="M16 8L22 12V20L16 24L10 20V12L16 8Z"
-                stroke="white"
-                strokeWidth="2"
-                strokeLinejoin="round"
-              />
+              <path d="M16 8L22 12V20L16 24L10 20V12L16 8Z" stroke="white" strokeWidth="2" strokeLinejoin="round" />
             </svg>
           </div>
           <h1 className={styles.title}>Sistema de Inventario</h1>
@@ -131,25 +59,15 @@ export default function Login() {
         <div className={styles.tabSwitcher}>
           <button
             className={`${styles.tab} ${!isRegistering ? styles.tabActive : ""}`}
-            onClick={() => {
-              setIsRegistering(false)
-              setError("")
-              setSuccess("")
-            }}
+            onClick={() => { setIsRegistering(false); setError(null); setSuccess(null) }}
           >
-            <MdLogin size={18} />
-            Iniciar Sesión
+            <MdLogin size={18} /> Iniciar Sesión
           </button>
           <button
             className={`${styles.tab} ${isRegistering ? styles.tabActive : ""}`}
-            onClick={() => {
-              setIsRegistering(true)
-              setError("")
-              setSuccess("")
-            }}
+            onClick={() => { setIsRegistering(true); setError(null); setSuccess(null) }}
           >
-            <MdPersonAdd size={18} />
-            Solicitar Registro
+            <MdPersonAdd size={18} /> Solicitar Registro
           </button>
         </div>
 
@@ -157,95 +75,44 @@ export default function Login() {
         {!isRegistering ? (
           <form onSubmit={handleLogin} className={styles.form}>
             <div className={styles.formGroup}>
-              <label htmlFor="email" className={styles.label}>
-                Correo electrónico
-              </label>
-              <input
-                id="email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-                placeholder="usuario@ejemplo.com"
-                required
-              />
+              <label htmlFor="email" className={styles.label}>Correo electrónico</label>
+              <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} className={styles.input} placeholder="usuario@ejemplo.com" required />
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="password" className={styles.label}>
-                Contraseña
-              </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={styles.input}
-                placeholder="••••••••"
-                required
-              />
+              <label htmlFor="password" className={styles.label}>Contraseña</label>
+              <input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} className={styles.input} placeholder="••••••••" required minLength={6} />
             </div>
 
             {error && <div className={styles.error}>{error}</div>}
             {success && <div className={styles.success}>{success}</div>}
 
-            <button type="submit" className={styles.submitButton}>
-              Iniciar Sesión
+            <button type="submit" className={styles.submitButton} disabled={loading}>
+              {loading ? "Ingresando..." : "Iniciar Sesión"}
             </button>
           </form>
         ) : (
           <form onSubmit={handleRegister} className={styles.form}>
             <div className={styles.formGroup}>
-              <label htmlFor="name" className={styles.label}>
-                Nombre completo
-              </label>
-              <input
-                id="name"
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className={styles.input}
-                placeholder="Juan Pérez"
-                required
-              />
+              <label htmlFor="name" className={styles.label}>Nombre completo</label>
+              <input id="name" type="text" value={name} onChange={e => setName(e.target.value)} className={styles.input} placeholder="Juan Pérez" required />
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="reg-email" className={styles.label}>
-                Correo electrónico
-              </label>
-              <input
-                id="reg-email"
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className={styles.input}
-                placeholder="usuario@ejemplo.com"
-                required
-              />
+              <label htmlFor="reg-email" className={styles.label}>Correo electrónico</label>
+              <input id="reg-email" type="email" value={email} onChange={e => setEmail(e.target.value)} className={styles.input} placeholder="usuario@ejemplo.com" required />
             </div>
 
             <div className={styles.formGroup}>
-              <label htmlFor="reg-password" className={styles.label}>
-                Contraseña
-              </label>
-              <input
-                id="reg-password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={styles.input}
-                placeholder="••••••••"
-                required
-                minLength={6}
-              />
+              <label htmlFor="reg-password" className={styles.label}>Contraseña</label>
+              <input id="reg-password" type="password" value={password} onChange={e => setPassword(e.target.value)} className={styles.input} placeholder="••••••••" required minLength={6} />
             </div>
 
             {error && <div className={styles.error}>{error}</div>}
             {success && <div className={styles.success}>{success}</div>}
 
-            <button type="submit" className={styles.submitButton}>
-              Enviar Solicitud
+            <button type="submit" className={styles.submitButton} disabled={loading}>
+              {loading ? "Enviando..." : "Enviar Solicitud"}
             </button>
           </form>
         )}
@@ -253,13 +120,9 @@ export default function Login() {
         {/* Demo accounts */}
         {!isRegistering && (
           <div className={styles.demoCredentials}>
-            <p className={styles.demoTitle}>Credenciales de prueba:</p>
-            <div className={styles.demoItem}>
-              <strong>Admin:</strong> admin@inventario.com / admin123
-            </div>
-            <div className={styles.demoItem}>
-              <strong>Empleado:</strong> empleado@inventario.com / empleado123
-            </div>
+            <p className={styles.demoTitle}>Credenciales de prueba (en BD):</p>
+            <div className={styles.demoItem}><strong>Admin:</strong> admin@inventario.com / admin123</div>
+            <div className={styles.demoItem}><strong>Empleado:</strong> empleado@inventario.com / empleado123</div>
           </div>
         )}
       </div>

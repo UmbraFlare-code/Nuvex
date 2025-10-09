@@ -1,27 +1,5 @@
-.dashboardContainer {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-  background: var(--background);
-  color: var(--foreground);
-  min-height: 100vh;
-}
-
-/* === Layout Principal === */
-.mainContent {
-  margin-left: 260px;
-  flex: 1;
-  overflow-y: auto;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2xl);
-  padding: var(--space-lg);
-}
-
-/* === Header === */
+/* features/dashboard/styles/DashboardView.module.css */
 .dashboardView {
-  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
   display: flex;
@@ -29,293 +7,31 @@
   gap: var(--space-xl);
 }
 
+/* Header */
 .header {
-  margin-bottom: var(--space-lg);
   padding-bottom: var(--space-md);
   border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
-
 .title {
   font-size: var(--font-size-2xl);
   font-weight: 700;
   color: var(--foreground);
   margin: 0 0 var(--space-xs);
 }
-
 .subtitle {
   font-size: var(--font-size-sm);
   color: var(--muted-foreground);
   margin: 0;
 }
-
-/* === Metrics Grid === */
-.metricsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: var(--space-lg);
-}
-
-.metricCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.metricCard:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-lg);
-}
-
-.metricHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--space-md);
-}
-
-.metricLabel {
+.headerMeta { display: flex; gap: var(--space-sm); }
+.metaItem {
   font-size: var(--font-size-xs);
-  font-weight: 500;
   color: var(--muted-foreground);
-}
-
-.metricIcon {
-  font-size: 1.6rem;
-}
-
-/* Colores explícitos para íconos */
-.metricCard:nth-child(1) .metricIcon { color: #3b82f6; }
-.metricCard:nth-child(2) .metricIcon { color: #10b981; }
-.metricCard:nth-child(3) .metricIcon { color: #ef4444; }
-.metricCard:nth-child(4) .metricIcon { color: #f59e0b; }
-
-.metricValue {
-  font-size: var(--font-size-2xl);
-  font-weight: 700;
-  color: var(--foreground);
-  margin-bottom: var(--space-xs);
-}
-
-.metricFooter {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-.metricBadge {
-  font-size: var(--font-size-xs);
-  font-weight: 600;
+  background: var(--gray-600);
+  border: 1px solid var(--border);
   padding: 0.25rem 0.5rem;
   border-radius: var(--radius-sm);
-  text-transform: uppercase;
-}
-
-/* Colores explícitos para badges */
-.metricCard:nth-child(1) .metricBadge { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-.metricCard:nth-child(2) .metricBadge { background: rgba(16, 185, 129, 0.15); color: #10b981; }
-.metricCard:nth-child(3) .metricBadge { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-.metricCard:nth-child(4) .metricBadge { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-
-.metricDescription {
-  font-size: var(--font-size-xs);
-  color: var(--muted-foreground);
-  margin-top: var(--space-xs);
-}
-
-/* === Charts === */
-.chartsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-  gap: var(--space-lg);
-}
-
-.chartCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-lg);
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-md);
-}
-
-.chartHeader {
-  padding-bottom: var(--space-sm);
-  border-bottom: 1px solid var(--border);
-}
-
-.chartTitle {
-  font-size: var(--font-size-lg);
-  font-weight: 600;
-  color: var(--foreground);
-  margin: 0 0 var(--space-xs);
-}
-
-.chartSubtitle {
-  font-size: var(--font-size-sm);
-  color: var(--muted-foreground);
-}
-
-.chartContainer {
-  width: 100%;
-  height: 300px;
-}
-
-/* === Tablas === */
-.tableWrapper {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  overflow-x: auto;
-  padding: var(--space-md);
-  box-shadow: var(--shadow-sm);
-}
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: var(--font-size-sm);
-}
-
-.table th {
-  text-align: left;
-  padding: var(--space-sm);
-  color: var(--muted-foreground);
-  border-bottom: 1px solid var(--border);
-  font-weight: 600;
-}
-
-.table td {
-  padding: var(--space-sm);
-  border-bottom: 1px solid var(--border);
-  color: var(--foreground);
-}
-
-.table tr:hover {
-  background: var(--gray-600);
-}
-
-/* === Notas === */
-.notesGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
-}
-
-.noteCard {
-  background: var(--card);
-  border-left: 4px solid var(--color-info);
-  padding: var(--space-md);
-  border-radius: var(--radius-md);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-  box-shadow: var(--shadow-sm);
-}
-
-.noteTitle {
-  font-size: var(--font-size-md);
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.noteDescription {
-  font-size: var(--font-size-sm);
-  color: var(--muted-foreground);
-  line-height: 1.5;
-}
-
-.notePinned {
-  border-left: 4px solid var(--color-warning);
-}
-
-/* === Responsive === */
-@media (max-width: 1024px) {
-  .mainContent {
-    margin-left: 80px;
-    padding: var(--space-sm);
-  }
-
-  .title {
-    font-size: var(--font-size-xl);
-  }
-
-  .metricsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-}
-/* === Grid general para secciones con cards === */
-.cardsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-lg);
-}
-
-/* === Card base === */
-.dataCard {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: var(--space-md);
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-.dataCard:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
-}
-
-/* Header de la card */
-.dataCardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dataCardTitle {
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--foreground);
-}
-
-.dataCardMeta {
-  font-size: var(--font-size-xs);
-  color: var(--muted-foreground);
-}
-
-/* Body reducido */
-.dataCardBody {
-  font-size: var(--font-size-sm);
-  color: var(--foreground);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xs);
-}
-
-/* Estado badge */
-.statusBadge {
-  padding: 0.2rem 0.5rem;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  text-transform: uppercase;
-  width: fit-content;
-}
-
-.statusPending { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-.statusDone    { background: rgba(16, 185, 129, 0.15); color: #10b981; }
-.statusError   { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-
-/* Texto secundario */
-.dataSecondary {
-  font-size: var(--font-size-xs);
-  color: var(--muted-foreground);
 }

@@ -1,0 +1,22 @@
+/* features/dashboard/styles/Charts.module.css */
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: var(--space-lg);
+}
+
+.chartCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.chartHeader { padding-bottom: var(--space-sm); border-bottom: 1px solid var(--border); }
+.chartTitle { font-size: var(--font-size-lg); font-weight: 600; color: var(--foreground); margin: 0 0 var(--space-xs); }
+.chartSubtitle { font-size: var(--font-size-sm); color: var(--muted-foreground); }
+.chartContainer { width: 100%; height: 300px; }

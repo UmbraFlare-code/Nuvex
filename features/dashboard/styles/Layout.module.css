@@ -1,0 +1,31 @@
+/* features/dashboard/styles/Layout.module.css */
+.dashboardContainer {
+  margin: var(--space-lg) var(--space-lg) var(--space-lg)280px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  background: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+}
+
+.mainContent {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xl);
+}
+
+@media (max-width: 1279px) {
+  .dashboardContainer {
+    margin: var(--space-sm) var(--space-sm) var(--space-sm) 85px;
+  }
+}
+
+@media (max-width: 639px) {
+  .dashboardContainer {
+    margin: var(--space-xs) var(--space-xs) var(--space-xs) 68px;
+  }
+}
