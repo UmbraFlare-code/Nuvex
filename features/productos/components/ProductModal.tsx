@@ -68,12 +68,12 @@ export default function ProductModal({ product, onClose, onSave }: ProductModalP
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="name">Nombre *</label>
-              <input className={styles.input} id="name" name="name" value={form.name} onChange={handleChange} required />
+              <input className={styles.input} data-cy="input-nombre" id="name" name="name" value={form.name} onChange={handleChange} required />
             </div>
 
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="category">Categoría *</label>
-              <select className={styles.input} id="category" name="category" value={form.category} onChange={handleChange} required>
+              <select className={styles.input} data-cy="input-categoria" id="category" name="category" value={form.category} onChange={handleChange} required>
                 <option value="">Seleccionar</option>
                 <option value="Motores">Motores</option>
                 <option value="Componentes">Componentes</option>
@@ -87,26 +87,26 @@ export default function ProductModal({ product, onClose, onSave }: ProductModalP
           <div className={styles.formRow}>
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="price">Precio *</label>
-              <input className={styles.input} id="price" name="price" type="number" step="0.01" min="0" value={form.price} onChange={handleChange} required />
+              <input className={styles.input} data-cy="input-precio" id="price" name="price" type="number" step="0.01" min="0" value={form.price} onChange={handleChange} required />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="stock">Stock *</label>
-              <input className={styles.input} id="stock" name="stock" type="number" min="0" value={form.stock} onChange={handleChange} required />
+              <input className={styles.input} data-cy="input-stock" id="stock" name="stock" type="number" min="0" value={form.stock} onChange={handleChange} required />
             </div>
             <div className={styles.formGroup}>
               <label className={styles.label} htmlFor="minStock">Stock Mínimo *</label>
-              <input className={styles.input} id="minStock" name="minStock" type="number" min="0" value={form.minStock} onChange={handleChange} required />
+              <input className={styles.input} data-cy="input-minStock" id="minStock" name="minStock" type="number" min="0" value={form.minStock} onChange={handleChange} required />
             </div>
           </div>
 
           <div className={styles.formGroup}>
             <label className={styles.label} htmlFor="description">Descripción</label>
-            <textarea className={styles.textarea} id="description" name="description" rows={3} value={form.description} onChange={handleChange} />
+            <textarea className={styles.textarea} data-cy="input-descripcion" id="description" name="description" rows={3} value={form.description} onChange={handleChange} />
           </div>
 
           <div className={styles.formActions}>
-            <button type="button" className={styles.cancelButton} onClick={onClose} disabled={submitting}>Cancelar</button>
-            <button type="submit" className={styles.submitButton} disabled={submitting}>
+            <button data-cy="btn-cancelar" type="button" className={styles.cancelButton} onClick={onClose} disabled={submitting}>Cancelar</button>
+            <button data-cy="btn-guardar" type="submit" className={styles.submitButton} disabled={submitting}>
               {submitting ? "Guardando..." : (product ? "Actualizar" : "Crear")}
             </button>
           </div>

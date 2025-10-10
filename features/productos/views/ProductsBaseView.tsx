@@ -95,7 +95,7 @@ export default function ProductsBaseView({ mode }: { mode: Mode }) {
         </div>
 
         {mode === "admin" && (
-          <button className={styles.addButton} onClick={() => openModal()}>
+          <button data-cy="btn-nuevo-producto" className={styles.addButton} onClick={() => openModal()}>
             <MdAdd size={20} />
             <span>Nuevo Producto</span>
           </button>
@@ -131,8 +131,8 @@ export default function ProductsBaseView({ mode }: { mode: Mode }) {
               <div className={styles.cardActions}>
                 {mode === "admin" ? (
                   <>
-                    <IconButton icon={<MdEdit size={18} />} title="Editar" onClick={() => openModal(p)} />
-                    <IconButton icon={<MdDelete size={18} />} title="Eliminar" onClick={() => handleDelete(p.id)} variant="danger" />
+                    <IconButton data-cy="btn-editar" icon={<MdEdit size={18} />} title="Editar" onClick={() => openModal(p)} />
+                    <IconButton data-cy="btn-eliminar" icon={<MdDelete size={18} />} title="Eliminar" onClick={() => handleDelete(p.id)} variant="danger" />
                   </>
                 ) : (
                   <button className={styles.requestButton} onClick={() => setSelectedEmployeeProduct(p)}>

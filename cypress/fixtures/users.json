@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "email": "admin@inventario.com",
+    "password": "admin123",
+    "name": "Administrador"
+  },
+  "user": {
+    "email": "usuario@nuvex.com",
+    "password": "user123",
+    "name": "Usuario Regular"
+  }
+}

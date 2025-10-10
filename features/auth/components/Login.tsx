@@ -87,7 +87,7 @@ export default function Login() {
             {error && <div className={styles.error}>{error}</div>}
             {success && <div className={styles.success}>{success}</div>}
 
-            <button type="submit" className={styles.submitButton} disabled={loading}>
+            <button id="login-submit" type="submit" className={styles.submitButton} disabled={loading}>
               {loading ? "Ingresando..." : "Iniciar Sesión"}
             </button>
           </form>

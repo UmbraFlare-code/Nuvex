@@ -73,7 +73,7 @@ export default function Sidebar({ role = "admin", activeView, onViewChange }: Pr
           </div>
           <div className={styles.sidebarUserInfo}>
             <div className={styles.sidebarUserName}>{user.name}</div>
-            <div className={styles.sidebarUserRole}>
+            <div id="user_role" className={styles.sidebarUserRole}>
               {user.role === "admin" ? "Administrador" : "Empleado"}
             </div>
           </div>

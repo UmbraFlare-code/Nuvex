@@ -1,0 +1,25 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Producto 1",
+      "precio": 100,
+      "stock": 50,
+      "categoria": "Electrónica"
+    },
+    {
+      "id": 2,
+      "nombre": "Producto 2",
+      "precio": 200,
+      "stock": 30,
+      "categoria": "Hogar"
+    },
+    {
+      "id": 3,
+      "nombre": "Producto 3",
+      "precio": 150,
+      "stock": 20,
+      "categoria": "Electrónica"
+    }
+  ]
+}
