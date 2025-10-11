@@ -1,0 +1,134 @@
+/* Layout */
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #fafafa;
+}
+
+.section {
+  flex: 1;
+  padding: 60px 20px;
+}
+
+.contactContainer {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 14px;
+  padding: 50px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+/* Titulos */
+.contactTitle {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 12px;
+}
+
+.contactSubtitle {
+  font-size: 1.05rem;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* Formulario */
+.contactForm {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.inputGroup {
+  position: relative;
+  text-align: left;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 14px 12px;
+  border: none;
+  border-bottom: 2px solid #e5e7eb;
+  font-size: 1rem;
+  background: transparent;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: #2563eb;
+}
+
+.label {
+  position: absolute;
+  top: 14px;
+  left: 12px;
+  font-size: 0.95rem;
+  color: #9ca3af;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+.input:focus + .label,
+.input:not(:placeholder-shown) + .label,
+.textarea:focus + .label,
+.textarea:not(:placeholder-shown) + .label {
+  top: -8px;
+  left: 8px;
+  font-size: 0.8rem;
+  color: #2563eb;
+  background: #fff;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+/* Botón */
+.button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.3s;
+}
+
+.button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+/* Información de contacto */
+.contactInfo {
+  font-size: 0.95rem;
+  color: #444;
+  text-align: center;
+}
+
+.contactInfo p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 8px 0;
+  font-weight: 500;
+}
+/* Mapa */
+.mapContainer {
+ margin-top: 30px;
+}
+
+
+.map {
+ border-radius: 8px;
+ border: none;
+ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}

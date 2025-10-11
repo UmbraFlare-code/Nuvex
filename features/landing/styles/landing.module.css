@@ -1,0 +1,40 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.heroSubtitle {
+  font-size: 1.125rem;
+  color: #4b5563;
+}
+
+
+.features {
+  padding: 4rem 1rem;
+  background: #f9fafb;
+}
+
+.featureCard {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.featureCard:hover {
+  box-shadow: 0 8px 12px rgba(0,0,0,0.1);
+}
+
+.cta {
+  background: #2563eb;
+  color: white;
+  padding: 5rem 1rem;
+  text-align: center;
+}
