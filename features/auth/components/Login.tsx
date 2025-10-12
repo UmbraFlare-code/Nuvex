@@ -13,7 +13,7 @@ export default function Login() {
     error,
     success,
     setError,
-    setSuccess
+    setSuccess,
   } = useAuth()
 
   const [isRegistering, setIsRegistering] = useState(false)
@@ -21,16 +21,31 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [name, setName] = useState("")
 
+  const validateEmail = (mail: string) => {
+    const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    return regex.test(mail)
+  }
+
+  const validatePassword = (pwd: string) => {
+    const regex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&_\-])[A-Za-z\d@$!%*?&_\-]{8,}$/
+    return regex.test(pwd)
+  }
+
   const handleLogin = async (e: FormEvent) => {
     e.preventDefault()
     setError(null)
     setSuccess(null)
 
+    if (!validateEmail(email)) {
+      alert("❌ El correo electrónico no tiene un formato válido.")
+      return
+    }
+
     try {
       await login(email, password)
-      // ✅ El AuthContext se actualiza, y HomePage redirige al Dashboard
     } catch {
-      // error ya gestionado por useAuth
+      /* error ya gestionado por useAuth */
     }
   }
 
@@ -39,19 +54,30 @@ export default function Login() {
     setError(null)
     setSuccess(null)
 
+    if (!validateEmail(email)) {
+      alert("❌ El correo electrónico no tiene un formato válido.")
+      return
+    }
+
+    if (!validatePassword(password)) {
+      alert(
+        "❌ La contraseña debe tener al menos 8 caracteres, incluir mayúsculas, minúsculas, un número y un símbolo especial."
+      )
+      return
+    }
+
     try {
       await requestRegister(name, email, password, "employee")
       setName("")
       setEmail("")
       setPassword("")
 
-      // Cambiar a vista login después de unos segundos
       setTimeout(() => {
         setIsRegistering(false)
         setSuccess(null)
       }, 3000)
     } catch {
-      // error ya gestionado por useAuth
+      /* error ya gestionado por useAuth */
     }
   }
 
@@ -77,6 +103,8 @@ export default function Login() {
         {/* Tabs */}
         <div className={styles.tabSwitcher}>
           <button
+            id="tab-login"
+            data-testid="tab-login"
             type="button"
             className={`${styles.tab} ${!isRegistering ? styles.tabActive : ""}`}
             onClick={() => {
@@ -89,6 +117,8 @@ export default function Login() {
           </button>
 
           <button
+            id="tab-register"
+            data-testid="tab-register"
             type="button"
             className={`${styles.tab} ${isRegistering ? styles.tabActive : ""}`}
             onClick={() => {
@@ -103,7 +133,7 @@ export default function Login() {
 
         {/* Formulario de login */}
         {!isRegistering && (
-          <form onSubmit={handleLogin} className={styles.form}>
+          <form onSubmit={handleLogin} className={styles.form} data-testid="login-form">
             <div className={styles.formGroup}>
               <label htmlFor="email" className={styles.label}>
                 Correo electrónico
@@ -112,7 +142,7 @@ export default function Login() {
                 id="email"
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 className={styles.input}
                 placeholder="usuario@ejemplo.com"
                 required
@@ -127,7 +157,7 @@ export default function Login() {
                 id="password"
                 type="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className={styles.input}
                 placeholder="••••••••"
                 required
@@ -135,11 +165,12 @@ export default function Login() {
               />
             </div>
 
-            {error && <div className={styles.error}>{error}</div>}
-            {success && <div className={styles.success}>{success}</div>}
+            {error && <div className={styles.error} data-testid="error-msg">{error}</div>}
+            {success && <div className={styles.success} data-testid="success-msg">{success}</div>}
 
             <button
               id="login-submit"
+              data-testid="login-submit"
               type="submit"
               className={styles.submitButton}
               disabled={loading}
@@ -151,7 +182,7 @@ export default function Login() {
 
         {/* Formulario de registro */}
         {isRegistering && (
-          <form onSubmit={handleRegister} className={styles.form}>
+          <form onSubmit={handleRegister} className={styles.form} data-testid="register-form">
             <div className={styles.formGroup}>
               <label htmlFor="name" className={styles.label}>
                 Nombre completo
@@ -160,7 +191,7 @@ export default function Login() {
                 id="name"
                 type="text"
                 value={name}
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 className={styles.input}
                 placeholder="Juan Pérez"
                 required
@@ -175,7 +206,7 @@ export default function Login() {
                 id="reg-email"
                 type="email"
                 value={email}
-                onChange={e => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value)}
                 className={styles.input}
                 placeholder="usuario@ejemplo.com"
                 required
@@ -190,18 +221,23 @@ export default function Login() {
                 id="reg-password"
                 type="password"
                 value={password}
-                onChange={e => setPassword(e.target.value)}
+                onChange={(e) => setPassword(e.target.value)}
                 className={styles.input}
                 placeholder="••••••••"
                 required
                 minLength={6}
               />
+              <small className={styles.hint}>
+                Debe tener mínimo 8 caracteres, mayúscula, minúscula, número y símbolo.
+              </small>
             </div>
 
-            {error && <div className={styles.error}>{error}</div>}
-            {success && <div className={styles.success}>{success}</div>}
+            {error && <div className={styles.error} data-testid="error-msg">{error}</div>}
+            {success && <div className={styles.success} data-testid="success-msg">{success}</div>}
 
             <button
+              id="register-submit"
+              data-testid="register-submit"
               type="submit"
               className={styles.submitButton}
               disabled={loading}
@@ -209,19 +245,6 @@ export default function Login() {
               {loading ? "Enviando..." : "Enviar Solicitud"}
             </button>
           </form>
-        )}
-
-        {/* Credenciales demo */}
-        {!isRegistering && (
-          <div className={styles.demoCredentials}>
-            <p className={styles.demoTitle}>Credenciales de prueba:</p>
-            <div className={styles.demoItem}>
-              <strong>Admin:</strong> admin@inventario.com / admin123
-            </div>
-            <div className={styles.demoItem}>
-              <strong>Empleado:</strong> empleado@inventario.com / empleado123
-            </div>
-          </div>
         )}
       </div>
     </div>

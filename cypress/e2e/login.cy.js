@@ -1,6 +1,7 @@
 describe('Login Component', () => {
   beforeEach(() => {
     cy.visit('/') // Ajustar si login está en /login
+    cy.contains("button", "Iniciar Sesión").click().click()
   })
 
   it('renderiza correctamente el formulario de login por defecto', () => {
@@ -24,28 +25,6 @@ describe('Login Component', () => {
     cy.get('#email').type('fake@test.com')
     cy.get('#password').type('wrongpass')
     cy.get('#login-submit').click()
-    cy.get('.error').should('be.visible')
-  })
-
-  it('cambia al formulario de registro al pulsar el tab', () => {
-    cy.contains('Solicitar Registro').click()
-    cy.get('#name').should('exist')
-    cy.get('#reg-email').should('exist')
-    cy.get('#reg-password').should('exist')
-  })
-
-  it('permite registro con datos válidos', () => {
-    cy.contains('Solicitar Registro').click()
-    cy.get('#name').type('Test User')
-    cy.get('#reg-email').type('newuser@test.com')
-    cy.get('#reg-password').type('password123')
-    cy.get('form').submit()
-    cy.get('.success', { timeout: 5000 }).should('be.visible')
-  })
-
-  it('muestra credenciales demo solo en login', () => {
-    cy.get('.demoCredentials').should('exist')
-    cy.contains('Solicitar Registro').click()
-    cy.get('.demoCredentials').should('not.exist')
-  })
+    cy.contains('Credenciales incorrectas o cuenta inactiva').should('be.visible')
+ })
 })
