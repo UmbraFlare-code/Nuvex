@@ -1,26 +1,27 @@
-# Usa Arch Linux como base
 FROM archlinux:latest
 
-# Instalación de dependencias del sistema (ajusta según lo que necesite tu aplicación)
-RUN pacman -Syu --noconfirm \
-    && pacman -S --noconfirm base-devel git \
-    && pacman -S --noconfirm nodejs npm \
-    && pacman -Scc --noconfirm
+# Actualizar e instalar Node + NPM
+RUN pacman -Syu --noconfirm && \
+    pacman -S --noconfirm nodejs npm git && \
+    pacman -Scc --noconfirm
 
-# Crear el directorio de la aplicación
+# Crear carpeta de trabajo
 WORKDIR /app
 
-# Copiar package.json y package-lock.json / yarn.lock si los tienes
+# Copiar dependencias
 COPY package*.json ./
 
-# Instalar dependencias de Node (si es un proyecto NodeJS)
-RUN npm install --production
+# Instalar dependencias de producción
+RUN npm install --production=false
 
-# Copiar el resto del código
+# Copiar resto del código del proyecto
 COPY . .
 
-# Exponer el puerto que tu aplicación usa (ajusta si es otro puerto)
+# Generar build de Next.js (.next/)
+RUN npm run build
+
+# Exponer puerto
 EXPOSE 3000
 
-# Comando para arrancar la app (ajusta si tu app se inicia con otro comando)
+# Comando de inicio en producción
 CMD ["npm", "start"]
