@@ -1,11 +1,12 @@
 import os from "os";
 
 export async function GET() {
+  const mem = process.memoryUsage();
   const data = {
-    memory: process.memoryUsage(),
+    rss: mem.rss,
+    heapUsed: mem.heapUsed,
     load: os.loadavg(),
     uptime: process.uptime(),
-    platform: process.platform,
     timestamp: Date.now()
   };
 
